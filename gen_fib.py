@@ -13,9 +13,7 @@ def fib_elem_gen():
         a = b
         b = res
 
-
 g = fib_elem_gen()
-
 
 while True:
     el = next(g)
@@ -28,6 +26,16 @@ def my_genn():
     number_of_fib_elem = yield
 
     while True:
+        if type(number_of_fib_elem) == str:
+            yield "Number of elements cannot be string"
+            break
+        elif type(number_of_fib_elem) == float:
+            yield "Number of elements cannot be float"
+            break
+        elif number_of_fib_elem < 0:
+            yield "Number of elements cannot be negative"
+            break
+
         print(number_of_fib_elem)
 
         generator = fib_elem_gen()
@@ -47,7 +55,6 @@ def fib_coroutine(g):
         gen = g(*args, **kwargs)
         gen.send(None)
         return gen
-
     return inner
 
 
@@ -55,4 +62,4 @@ my_genn = fib_coroutine(my_genn)
 gen = my_genn()
 print(gen.send(10))
 print(gen.send(5))
-print(gen.send(7))
+print(gen.send(-5))
